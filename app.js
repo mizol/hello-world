@@ -46,25 +46,6 @@ const LocalStorageCtrl = (function () {
         return id;
     }
 
-    // let getLocalStorageItems = new Promise(function(resolve, reject){
-    //     let items;
-
-    //     if(localStorage.getItem(CurrentStorageKey) === null){
-    //         items = [];
-    //         //localStorage.setItem(CurrentStorageKey, JSON.stringify(items));
-    //     } else {
-    //         try
-    //         {
-    //             items = JSON.parse(localStorage.getItem(CurrentStorageKey));
-    //         } 
-    //         catch(error){
-    //             console.error(error);
-    //             reject(error);
-    //         }
-    //     }
-
-    //     resolve(items);
-    // });
 
     let setLocalStorageItem = function (items) {
         localStorage.setItem(CurrentStorageKey, JSON.stringify(items));
@@ -74,15 +55,8 @@ const LocalStorageCtrl = (function () {
     return {
         getAllItems: function () {
             return getLocalStorageItems();
-
-            // let items;
-            // if(localStorage.getItem(CurrentStorageKey) === null){
-            //     items = [];
-            // } else {
-            //     items = JSON.parse(localStorage.getItem(CurrentStorageKey));
-            // }
-            // return items;
         },
+
         updateItem: function (updatedItem) {
             let items = getLocalStorageItems(function (items) {
                 // Iterate and find by Id then Update it by splice(index, amount, new item) 
@@ -96,20 +70,10 @@ const LocalStorageCtrl = (function () {
             });
 
             setLocalStorageItem(items);
-
-            // let items = JSON.parse(localStorage.getItem(CurrentStorageKey));
-
-            // items.forEach(function(item, index){
-            //     if(updatedItem.id === item.id){
-            //     items.splice(index, 1, updatedItem);
-            //     }
-            // });
-
-            // localStorage.setItem(CurrentStorageKey, JSON.stringify(items));
         },
+
         deleteItem: function (id) {
             let items = getLocalStorageItems(function (items) {
-
                 // Iterate by all items and find by Id 
                 // and Update it by splice(index, amount, new item) 
                 items.forEach(function (item, index) {
@@ -122,15 +86,6 @@ const LocalStorageCtrl = (function () {
             });
 
             setLocalStorageItem(items);
-
-            // let items = JSON.parse(localStorage.getItem(CurrentStorageKey));
-
-            // items.forEach(function(item, index){
-            //     if(id === item.id){
-            //     items.splice(index, 1);
-            //     }
-            // });
-            // localStorage.setItem(CurrentStorageKey, JSON.stringify(items));
         },
 
         saveItem: function (item) {
@@ -245,7 +200,6 @@ const UICtrl = (function () {
             //https://www.ag-grid.com/javascript-getting-started/
             //https://www.ag-grid.com/javascript-grid-data-update/
 
-            //var grid = document.querySelector(UISelectors.eventGrid);
 
             var uiDate = moment(item.date).format(UiOptions.columnDateTimeFormat);
             var row = [{ id: item.id, name: item.name, eventDate: uiDate }];
@@ -357,11 +311,13 @@ const RCalendarApp = (function () {
         // Get UI selectors
         const UISelectors = UICtrl.getSelectors();
 
-        // Add item event
+        // Event AddItem
         document.querySelector(UISelectors.addBtn).addEventListener('click', itemAddSubmit);
 
+        // Event Delete all data
         document.querySelector(UISelectors.clearAllBtn).addEventListener('click', clearAllSubmit);
 
+        // agGrid load
         document.addEventListener('DOMContentLoaded', function () {
             var gridDiv = document.querySelector(UISelectors.eventGrid);
             let gvOpt = UICtrl.getGridOptions();
